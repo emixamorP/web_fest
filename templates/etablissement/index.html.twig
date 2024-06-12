@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+
+<h1>Liste des établissements</h1>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nom</th>
+            <th>Nombre de Chambres simple</th>
+            <th>Nombre de Groupes</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for etablissement in etablissements %}
+            <tr>
+                <td>{{ etablissement.nom }}</td>
+                <td>{{ etablissement.getChambresRestantes() }} / {{ etablissement.nbrChambres }}</td>
+                <td>{{ etablissement.groupes|length }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <form method="post" action="{{ path('app_etablissement_delete', { 'id': etablissement.id }) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet établissement ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ etablissement.id) }}">
+                            <button class="btn btn-danger btn-sm">Supprimer</button>
+                        </form>
+                        <a href="{{ path('app_etablissement_edit', { 'id': etablissement.id }) }}" class="btn btn-primary btn-sm">Modifier</a>
+                        <a href="{{ path('app_etablissement_new') }}">Create new</a>
+                    </td>
+               {% endif %}
+                <td>
+                <a href="{{ path('app_etablissement_show', { 'id': etablissement.id }) }}">Détails</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}

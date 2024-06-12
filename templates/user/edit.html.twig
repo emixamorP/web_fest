@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+{{ form_start(form) }}
+{{ form_widget(form) }}
+
+<button type="submit" class="btn btn-primary">Modifier</button>
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<a href="{{ path('app_user_index') }}">back to list</a>
+{% endif %}
+
+{{ form_end(form) }}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_user_edit', {'id': user.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet utilisateur ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('save' ~ user.id) }}">
+    <button class="btn btn-success btn-sm">Enregistrer</button>
+</form>

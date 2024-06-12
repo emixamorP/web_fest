@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_groupe_join', {'id': groupe.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir rejoindre ce groupe ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('join' ~ groupe.id) }}">
+    <button class="btn btn-success btn-sm">Rejoindre</button>
+</form>

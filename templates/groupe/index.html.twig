@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+        <h1>Liste des groupes</h1>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nom</th>
+                    <th>Nombre de places</th>
+                    <th>Etablissement relié</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for groupe in groupes %}
+                <tr>
+                    <td>{{ groupe.nom }}</td>
+                    <td>
+                        {% if groupe.getPlacesRestantes() == 0 %}
+                            <p>Plein</p>
+                        {% endif %}
+                        {{ groupe.getPlacesRestantes() }}/{{ groupe.nombreMaximum }}</td>
+                    <td>Aucun établissement</td>
+                    <td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_groupe_edit', {'id': groupe.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+
+                            {{ include('groupe/_delete.html.twig') }}
+                            
+                        {% elseif groupe.chef == app.user %}
+                            <a href="{{ path('app_groupe_edit', {'id': groupe.id}) }}" class="btn btn-primary btn-sm">Modifier</a>
+
+                            {{ include('groupe/_delete.html.twig') }}
+
+                        {% else %}
+                            {% if app.user and not groupe.users.contains(app.user) %}
+                                {% if groupe.getPlacesRestantes() > 0 %}
+                                    {{ include("groupe/_join.html.twig") }}
+                                {% else %}
+                                    <p>Complet</p>
+                                {% endif %}
+                            {% else %}
+                                {{ include("groupe/_leave.html.twig") }}
+                            {% endif %}
+                        {% endif %}
+
+                        <a href="{{ path('app_show', {'id': groupe.id}) }}" class="btn btn-primary btn-sm">Détails</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="9">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ path('app_groupe_new') }}">Create new</a>
+</div>
+{% endblock %}

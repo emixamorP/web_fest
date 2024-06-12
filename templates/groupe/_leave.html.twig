@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_groupe_quit', {'id': groupe.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir modifier cet utilisateur ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('leave' ~ groupe.id) }}">
+    <button class="btn btn-danger btn-sm">Quitter</button>
+</form>

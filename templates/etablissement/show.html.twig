@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+        <h1>Détais de l'établissement</h1>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nom</th>
+                    <td>{{ etablissement.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de places</th>
+                    <td>
+                        {% if etablissement.getChambresRestantes() == 0 %}
+                                <p>Plein</p>
+                        {% endif %}
+                        {{ etablissement.getChambresRestantes() }}/{{ etablissement.nbrChambres }}</td>
+                    </td>
+                </tr>
+                    <th>Membres</th>
+                    <td>
+                    {% if etablissement.groupes is empty %}
+                            Aucun membre
+                        {% else %}
+                        {% for groupe in etablissement.groupes %}
+                            {{ groupe.nom }}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    <a href="{{ path('app_etablissement') }}">back to list</a>
+</div>
+{% endblock %}

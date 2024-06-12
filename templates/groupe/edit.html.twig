@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<div class="container mt-5">
+
+    <h1>Utilisateur N°{{ groupe.id }}</h1>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+
+     <button type="submit" class="btn btn-primary">Modifier</button>
+
+            {{ include('groupe/_delete.html.twig') }}
+            </tr>
+<a href="{{ path('app_groupe') }}">back to list</a>
+        
+
+{{ form_end(form) }}
+
+{% endblock %}
